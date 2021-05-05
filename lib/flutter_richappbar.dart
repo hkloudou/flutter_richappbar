@@ -31,17 +31,12 @@ class _appbarBottom extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    TextStyle? base = (theme.appBarTheme.backwardsCompatibility ?? false)
+    TextStyle? base = (theme.appBarTheme.backwardsCompatibility ?? true)
         ? theme.appBarTheme.textTheme?.headline6 ??
             theme.primaryTextTheme.headline6
         : theme.appBarTheme.titleTextStyle ??
             theme.textTheme.headline6
                 ?.copyWith(color: theme.appBarTheme.foregroundColor);
-    // var base = Theme.of(context).appBarTheme.titleTextStyle ??
-    //     Theme.of(context)
-    //         .textTheme
-    //         .headline6
-    //         ?.copyWith(color: Theme.of(context).appBarTheme.foregroundColor);
     base = base ??
         TextStyle(
           fontSize: 24,
