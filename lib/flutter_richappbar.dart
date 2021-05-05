@@ -21,33 +21,40 @@ extension WidgetExtension on Widget {
 class _appbarBottom extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final double titleHeight;
+  final double current;
   _appbarBottom({
     Key? key,
     required this.titleHeight,
+    required this.current,
     required this.title,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Container(
+    return ClipRect(
+      child: Align(
         alignment: Alignment.centerLeft,
-        child: Padding(
-          padding: EdgeInsets.only(left: 15),
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+        heightFactor: current / titleHeight,
+        child: Container(
+          // height: 40,
+          child: Padding(
+            padding: EdgeInsets.only(left: 15),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
       ),
-    ]);
+    );
   }
 
   @override
   Size get preferredSize {
-    return new Size.fromHeight(titleHeight);
+    // print(titleHeight);
+    return new Size.fromHeight(current);
   }
 }
 
@@ -125,7 +132,7 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
         leading: widget.leading,
         actions: widget.actions,
         title: Opacity(
-          opacity: _op,
+          opacity: 1,
           child: Text(
             widget.title,
           ),
@@ -133,7 +140,8 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
         elevation: 0,
         bottom: _appbarBottom(
           title: widget.title,
-          titleHeight: _shouldHeight,
+          titleHeight: widget.titleHeight,
+          current: _shouldHeight,
         ),
         backwardsCompatibility: false,
       ),
