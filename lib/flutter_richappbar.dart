@@ -186,7 +186,7 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
                       ],
                     ),
                   ),
-                )._refresh(onRefresh: widget.onRefresh);
+                )._refresh(key: _refreshKey, onRefresh: widget.onRefresh);
               },
             ),
           ),
