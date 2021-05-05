@@ -114,7 +114,7 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
                         widget.titleHeight - widget.titleHeightPos),
                     0) /
                 (widget.titleHeight - widget.titleHeightPos));
-            print("${_scrollController.offset} ${widget.titleHeight} ${_op}");
+            // print("${_scrollController.offset} ${widget.titleHeight} ${_op}");
           });
         });
     });
@@ -158,9 +158,6 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
                   controller: _scrollController,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      // minHeight: constraints.maxHeight +
-                      //     widget.titleHeight +
-                      //     widget.titleHeightPos,
                       minHeight: constraints.maxHeight + widget.titleHeight,
                       maxHeight: double.infinity,
                     ),
