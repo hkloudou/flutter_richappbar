@@ -76,7 +76,8 @@ class _appbarBottom extends StatelessWidget implements PreferredSizeWidget {
 class RichAppBarPage extends StatefulWidget {
   final double titleHeight;
   final double titleHeightPos;
-  final Widget? bottom;
+  final Widget? bodyBottom;
+  final Widget? bodyTop;
   final Widget? body;
   final Widget? leading;
   final String title;
@@ -86,7 +87,8 @@ class RichAppBarPage extends StatefulWidget {
     Key? key,
     this.titleHeight = 50,
     this.titleHeightPos = 30,
-    this.bottom,
+    this.bodyTop,
+    this.bodyBottom,
     this.leading,
     this.title = "",
     this.body,
@@ -162,6 +164,7 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          widget.bodyTop != null ? widget.bodyTop! : Container(),
           Expanded(
             child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
@@ -183,11 +186,11 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
                       ],
                     ),
                   ),
-                );
+                )._refresh(onRefresh: widget.onRefresh);
               },
             ),
           ),
-          widget.bottom != null ? widget.bottom! : Container(),
+          widget.bodyBottom != null ? widget.bodyBottom! : Container(),
         ],
       ),
     );
