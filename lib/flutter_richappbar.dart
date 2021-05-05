@@ -78,6 +78,7 @@ class RichAppBarPage extends StatefulWidget {
     this.title = "",
     this.body,
     this.onRefresh,
+    // this.onMore,
     this.actions,
   })  : assert(titleHeight > titleHeightPos),
         super(key: key);
@@ -108,13 +109,11 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
               max(min(_scrollController.offset, widget.titleHeight), 0);
           setState(() {
             _shouldHeight = tmp;
-
             _op = (max(
                     min(_scrollController.offset - widget.titleHeightPos,
                         widget.titleHeight - widget.titleHeightPos),
                     0) /
                 (widget.titleHeight - widget.titleHeightPos));
-            // print("${_scrollController.offset} ${widget.titleHeight} ${_op}");
           });
         });
     });
