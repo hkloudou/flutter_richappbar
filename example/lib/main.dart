@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
       home: RichAppBarPage(
         title: "动态标题",
         body: Container(
-          height: 200,
+          height: 100,
           color: Colors.red,
           child: Text("测试"),
         ),

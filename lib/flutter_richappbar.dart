@@ -32,10 +32,12 @@ class _appbarBottom extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return ClipRect(
       child: Align(
-        alignment: Alignment.centerLeft,
+        alignment: Alignment.bottomLeft,
         heightFactor: current / titleHeight,
         child: Container(
-          // height: 40,
+          // color: Colors.red,
+          height: titleHeight,
+          alignment: Alignment.centerLeft,
           child: Padding(
             padding: EdgeInsets.only(left: 15),
             child: Text(
@@ -53,7 +55,7 @@ class _appbarBottom extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize {
-    // print(titleHeight);
+    // print(current);
     return new Size.fromHeight(current);
   }
 }
@@ -69,7 +71,7 @@ class RichAppBarPage extends StatefulWidget {
   final Future<void> Function()? onRefresh;
   RichAppBarPage({
     Key? key,
-    this.titleHeight = 40,
+    this.titleHeight = 50,
     this.titleHeightPos = 30,
     this.bottom,
     this.leading,
@@ -77,7 +79,8 @@ class RichAppBarPage extends StatefulWidget {
     this.body,
     this.onRefresh,
     this.actions,
-  }) : super(key: key);
+  })  : assert(titleHeight > titleHeightPos),
+        super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _RichAppBarPageState();
@@ -102,17 +105,16 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
       _scrollController
         ..addListener(() {
           var tmp = widget.titleHeight -
-              max(
-                  min(_scrollController.offset - widget.titleHeight,
-                      widget.titleHeight),
-                  0);
+              max(min(_scrollController.offset, widget.titleHeight), 0);
           setState(() {
             _shouldHeight = tmp;
-            // _op = (max(
-            //         min(_scrollController.offset - widget.titleHeight,
-            //             widget.titleHeightPos),
-            //         0) /
-            //     widget.titleHeightPos);
+
+            _op = (max(
+                    min(_scrollController.offset - widget.titleHeightPos,
+                        widget.titleHeight - widget.titleHeightPos),
+                    0) /
+                (widget.titleHeight - widget.titleHeightPos));
+            print("${_scrollController.offset} ${widget.titleHeight} ${_op}");
           });
         });
     });
@@ -132,7 +134,7 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
         leading: widget.leading,
         actions: widget.actions,
         title: Opacity(
-          opacity: 1,
+          opacity: _op,
           child: Text(
             widget.title,
           ),
@@ -156,12 +158,21 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
                   controller: _scrollController,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight +
-                          widget.titleHeight +
-                          widget.titleHeightPos,
+                      // minHeight: constraints.maxHeight +
+                      //     widget.titleHeight +
+                      //     widget.titleHeightPos,
+                      minHeight: constraints.maxHeight + widget.titleHeight,
                       maxHeight: double.infinity,
                     ),
-                    child: widget.body != null ? widget.body! : Container(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: widget.titleHeight - _shouldHeight,
+                        ),
+                        widget.body != null ? widget.body! : Container()
+                      ],
+                    ),
                   ),
                 );
               },
