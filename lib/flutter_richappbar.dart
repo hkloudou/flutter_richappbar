@@ -44,9 +44,6 @@ class _appbarBottom extends StatelessWidget implements PreferredSizeWidget {
       fontSize: 24,
       fontWeight: FontWeight.bold,
     );
-    //   : widget.titleTextStyle
-    // ?? appBarTheme.titleTextStyle
-    // ?? theme.textTheme.headline6?.copyWith(color: foregroundColor);
     return ClipRect(
       child: Align(
         alignment: Alignment.bottomLeft,
