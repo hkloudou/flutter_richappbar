@@ -46,17 +46,22 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        // appBarTheme: AppBarTheme(
-        //   foregroundColor: Color(0xFF606266),
-        //   backgroundColor: Colors.white,
-        //   brightness: Brightness.light,
-        //   backwardsCompatibility: false,
-        // ),
-      ),
+          // appBarTheme: AppBarTheme(
+          //   foregroundColor: Color(0xFF606266),
+          //   backgroundColor: Colors.white,
+          //   brightness: Brightness.light,
+          //   backwardsCompatibility: false,
+          // ),
+          ),
       home: RichAppBarPage(
         title: "动态标题",
+        onRefresh: () {
+          print("re");
+          return Future.value();
+        },
         body: Container(
           height: 100,
+          width: double.infinity,
           color: Colors.red,
           child: Text("测试"),
         ),

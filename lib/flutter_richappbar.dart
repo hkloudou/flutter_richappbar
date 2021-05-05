@@ -15,6 +15,8 @@ extension WidgetExtension on Widget {
               key: key,
               onRefresh: onRefresh,
               child: this,
+              displacement: 0,
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
             );
 }
 
@@ -122,14 +124,19 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
         ..addListener(() {
           var tmp = widget.titleHeight -
               max(min(_scrollController.offset, widget.titleHeight), 0);
-          setState(() {
-            _shouldHeight = tmp;
-            _op = (max(
-                    min(_scrollController.offset - widget.titleHeightPos,
-                        widget.titleHeight - widget.titleHeightPos),
-                    0) /
-                (widget.titleHeight - widget.titleHeightPos));
-          });
+          var tmp2 = (max(
+                  min(_scrollController.offset - widget.titleHeightPos,
+                      widget.titleHeight - widget.titleHeightPos),
+                  0) /
+              (widget.titleHeight - widget.titleHeightPos));
+          // print(_shouldHeight);
+          if (_shouldHeight != tmp || _op != tmp2) {
+            // print("h:$_shouldHeight op:$_op");
+            setState(() {
+              _shouldHeight = tmp;
+              _op = tmp2;
+            });
+          }
         });
     });
   }
@@ -164,6 +171,11 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // _appbarBottom(
+          //   title: widget.title,
+          //   titleHeight: widget.titleHeight,
+          //   current: _shouldHeight,
+          // ),
           widget.bodyTop != null ? widget.bodyTop! : Container(),
           Expanded(
             child: LayoutBuilder(
