@@ -30,6 +30,23 @@ class _appbarBottom extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    var base = Theme.of(context).appBarTheme.titleTextStyle ??
+        Theme.of(context)
+            .textTheme
+            .headline6
+            ?.copyWith(color: Theme.of(context).appBarTheme.foregroundColor);
+    base = base ??
+        TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        );
+    base = base.copyWith(
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+    );
+    //   : widget.titleTextStyle
+    // ?? appBarTheme.titleTextStyle
+    // ?? theme.textTheme.headline6?.copyWith(color: foregroundColor);
     return ClipRect(
       child: Align(
         alignment: Alignment.bottomLeft,
@@ -42,10 +59,7 @@ class _appbarBottom extends StatelessWidget implements PreferredSizeWidget {
             padding: EdgeInsets.only(left: 15),
             child: Text(
               title,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: base,
             ),
           ),
         ),
