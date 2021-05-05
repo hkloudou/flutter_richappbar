@@ -28,24 +28,26 @@ class _appbarBottom extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      child: Padding(
-        padding: EdgeInsets.only(left: 15),
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+    return Stack(children: [
+      Container(
+        alignment: Alignment.centerLeft,
+        child: Padding(
+          padding: EdgeInsets.only(left: 15),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
-    );
+    ]);
   }
 
   @override
   Size get preferredSize {
-    return new Size.fromHeight(20.0);
+    return new Size.fromHeight(titleHeight);
   }
 }
 
@@ -92,12 +94,13 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
       }
       _scrollController
         ..addListener(() {
+          var tmp = widget.titleHeight -
+              max(
+                  min(_scrollController.offset - widget.titleHeight,
+                      widget.titleHeight),
+                  0);
           setState(() {
-            _shouldHeight = widget.titleHeight -
-                max(
-                    min(_scrollController.offset - widget.titleHeight,
-                        widget.titleHeight),
-                    0);
+            _shouldHeight = tmp;
             // _op = (max(
             //         min(_scrollController.offset - widget.titleHeight,
             //             widget.titleHeightPos),
