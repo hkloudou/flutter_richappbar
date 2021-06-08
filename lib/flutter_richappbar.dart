@@ -15,9 +15,15 @@ extension WidgetExtension on Widget {
               key: key,
               onRefresh: onRefresh,
               child: this,
-              displacement: 0,
+              // displacement: 0,
               triggerMode: RefreshIndicatorTriggerMode.anywhere,
             );
+}
+
+class RickRefreshControler {
+  final bool initialRefresh;
+  RickRefreshControler({this.initialRefresh = false});
+  void reset() {}
 }
 
 class _appbarBottom extends StatelessWidget implements PreferredSizeWidget {
@@ -75,7 +81,10 @@ class _appbarBottom extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-class RichAppBarPage extends StatefulWidget {
+typedef OnRefreshArive<T> = void Function(List<T>, bool);
+typedef OnGetID<T> = dynamic Function(T last);
+
+class RichAppBarPage<T> extends StatefulWidget {
   final double titleHeight;
   final double titleHeightPos;
   final Widget? bodyBottom;
@@ -83,8 +92,12 @@ class RichAppBarPage extends StatefulWidget {
   final Widget? body;
   final Widget? leading;
   final String title;
+  // final SizedBox
+  final RickRefreshControler? controler;
   final List<Widget>? actions;
   final Future<void> Function()? onRefresh;
+  final OnGetID<T> getID;
+
   RichAppBarPage({
     Key? key,
     this.titleHeight = 50,
@@ -97,15 +110,17 @@ class RichAppBarPage extends StatefulWidget {
     this.onRefresh,
     // this.onMore,
     this.actions,
-  })  : assert(titleHeight > titleHeightPos),
+    this.controler,
+    required this.getID,
+  })   : assert(titleHeight > titleHeightPos),
         super(key: key);
   @override
-  State<StatefulWidget> createState() {
-    return _RichAppBarPageState();
+  State<RichAppBarPage<T>> createState() {
+    return _RichAppBarPageState<T>();
   }
 }
 
-class _RichAppBarPageState extends State<RichAppBarPage> {
+class _RichAppBarPageState<T> extends State<RichAppBarPage<T>> {
   GlobalKey<RefreshIndicatorState> _refreshKey =
       GlobalKey<RefreshIndicatorState>();
   ScrollController _scrollController = ScrollController();
@@ -117,7 +132,8 @@ class _RichAppBarPageState extends State<RichAppBarPage> {
     _shouldHeight = widget.titleHeight;
     // WidgetBuilder(
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      if (widget.onRefresh != null) {
+      if (widget.onRefresh != null &&
+          widget.controler?.initialRefresh == true) {
         _refreshKey.currentState?.show();
       }
       _scrollController
