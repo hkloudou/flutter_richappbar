@@ -7,7 +7,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-extension WidgetExtension on Widget {
+extension _WidgetExtension on Widget {
   Widget _refresh({Key? key, Future<void> Function()? onRefresh}) =>
       onRefresh == null
           ? this
