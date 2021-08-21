@@ -96,7 +96,7 @@ class RichAppBarPage<T> extends StatefulWidget {
   final RickRefreshControler? controler;
   final List<Widget>? actions;
   final Future<void> Function()? onRefresh;
-  final OnGetID<T> getID;
+  // final OnGetID<T> getID;
 
   RichAppBarPage({
     Key? key,
@@ -111,7 +111,7 @@ class RichAppBarPage<T> extends StatefulWidget {
     // this.onMore,
     this.actions,
     this.controler,
-    required this.getID,
+    // required this.getID,
   })   : assert(titleHeight > titleHeightPos),
         super(key: key);
   @override
