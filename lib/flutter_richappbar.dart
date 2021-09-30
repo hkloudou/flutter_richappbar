@@ -112,7 +112,7 @@ class RichAppBarPage<T> extends StatefulWidget {
     this.actions,
     this.controler,
     // required this.getID,
-  })   : assert(titleHeight > titleHeightPos),
+  })  : assert(titleHeight > titleHeightPos),
         super(key: key);
   @override
   State<RichAppBarPage<T>> createState() {
@@ -121,7 +121,7 @@ class RichAppBarPage<T> extends StatefulWidget {
 }
 
 class _RichAppBarPageState<T> extends State<RichAppBarPage<T>> {
-  GlobalKey<RefreshIndicatorState> _refreshKey =
+  GlobalKey<RefreshIndicatorState>? _refreshKey =
       GlobalKey<RefreshIndicatorState>();
   ScrollController _scrollController = ScrollController();
   double _op = 0;
@@ -134,7 +134,7 @@ class _RichAppBarPageState<T> extends State<RichAppBarPage<T>> {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (widget.onRefresh != null &&
           widget.controler?.initialRefresh == true) {
-        _refreshKey.currentState?.show();
+        _refreshKey?.currentState?.show();
       }
       _scrollController
         ..addListener(() {
@@ -159,7 +159,6 @@ class _RichAppBarPageState<T> extends State<RichAppBarPage<T>> {
 
   @override
   void dispose() {
-    // print("dispose");
     _scrollController.dispose();
     super.dispose();
   }
